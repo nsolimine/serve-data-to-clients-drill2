@@ -71,5 +71,27 @@ app.get("/", cors(), function (request, response){
     });
 });
 
+function getID(instructors, id){
+  for (let i = 0; i < instructors.length; i++){
+    if (instructors[i].id == id){
+      return instructors[i];
+    }
+  }
+  return null;
+}
+
+app.get("/:id", cors(), function (request, response){
+  var idPull = getID(instructors, request.params.id);
+  if (!idPull){
+    response.status(404).json({
+      error: {
+        message: "No record found!"
+      }
+    });
+  }
+  response.json({
+    instructors: idPull
+  });
+});
 
 app.listen(process.env.PORT||4000);
